@@ -12,34 +12,48 @@ namespace RSL
 {
     class MainWindow : Window
     {
+        static ADB adb = new ADB();
+        #region UI
         [UI] private Label _label1 = null;
         [UI] private Button _button1 = null;
         [UI] private ColorButton _GtkColorButton = null;
 
-        private int _counter;
-
         public MainWindow() : this(new Builder("MainWindow.glade"))
         {
+            
         }
 
         private MainWindow(Builder builder) : base(builder.GetRawOwnedObject("MainWindow"))
         {
-            Gtk.Settings.Default.ApplicationPreferDarkTheme = true;
+            //Before Load
+            BeforeUILoaded();
             builder.Autoconnect(this);
 
             DeleteEvent += Window_DeleteEvent;
             _button1.Clicked += Button1_Clicked;
             _GtkColorButton.Title = "test";
+            AfterUILoaded();
         }
-
+        #endregion
+        #region UI_Events
         private void Window_DeleteEvent(object sender, DeleteEventArgs a)
         {
             Application.Quit();
         }
-        static ADB adb = new ADB();
         private void Button1_Clicked(object sender, EventArgs a)
         {
             _label1.Text = adb.RunCommand("version").Output;
         }
+
+        private void BeforeUILoaded()
+        {
+            Settings.ADBExists = adb.DoesExist();
+        }
+
+        private void AfterUILoaded()
+        {
+            
+        }
+        #endregion
     }
 }

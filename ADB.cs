@@ -6,7 +6,7 @@ namespace RSL
 {
     public class ADB
     {
-        static Process Process;
+        public Process Process;
         static bool Locked = false;
         public ADB()
         {
@@ -15,15 +15,25 @@ namespace RSL
             Process.StartInfo.RedirectStandardInput = true;
             Process.StartInfo.RedirectStandardOutput = true;
             Process.StartInfo.RedirectStandardError = true;
+            if (!Settings.DebugMode)
+            {
+                Process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                Process.StartInfo.CreateNoWindow = true;
+            }
         }
-        
+
+        public bool DoesExist()
+        {
+            var output = RunCommand("version");
+            return output.Output.Contains("Android Debug Bridge");
+        }
         public ProcessOutput RunCommand(string command)
         {
+            if (Locked) throw new Exception(LockedMessage);
             Locked = true;
-            Console.WriteLine("entered");
+
             Process.StartInfo.Arguments = command;
-            if (File.Exists(Process.StartInfo.FileName))
-                Console.WriteLine("Exists");
+
             Process.Start();
             Process.WaitForExit();
             ProcessOutput output = new ProcessOutput(Process.StandardOutput.ReadToEnd(), Process.StandardError.ReadToEnd());
@@ -33,17 +43,5 @@ namespace RSL
             return output;
         }
         string LockedMessage = "Error, the current adb thread is locked";
-        
-        public bool CheckAdb()
-        {
-            if (Locked) throw new Exception(LockedMessage);
-            try
-            {
-                Process.StartInfo.Arguments = "version";
-                Process.Start();
-            }
-            catch { return false; }
-            return true;
-        }
     }
 }
