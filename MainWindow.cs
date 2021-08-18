@@ -16,7 +16,8 @@ namespace RSL
         #region UI
         [UI] private Label _label1 = null;
         [UI] private Button _button1 = null;
-        [UI] private ColorButton _GtkColorButton = null;
+        [UI] private Layout _sideloadLayout = null;
+        [UI] private Notebook _notebook = null;
 
         public MainWindow() : this(new Builder("MainWindow.glade"))
         {
@@ -31,9 +32,8 @@ namespace RSL
             //Add events
             DeleteEvent += Window_DeleteEvent;
             _button1.Clicked += Button1_Clicked;
-            
-            _GtkColorButton.Title = "test";
-            
+            _sideloadLayout.DragDrop += SideloadLayout_DragBegin;
+
             //After UI was loaded
             AfterUILoaded();
         }
@@ -42,6 +42,12 @@ namespace RSL
         private void Window_DeleteEvent(object sender, DeleteEventArgs a)
         {
             Application.Quit();
+        }
+
+        private void SideloadLayout_DragBegin(object sender, EventArgs a)
+        {
+            Console.WriteLine("DRAG STARTED!");
+            TitleHandler.ChangeTitle(this,"DragStarted!");
         }
         private void Button1_Clicked(object sender, EventArgs a)
         {
