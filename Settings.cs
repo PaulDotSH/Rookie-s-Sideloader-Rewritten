@@ -12,9 +12,9 @@ namespace RSL
         public static bool ADBExists = false;
         public static OSType OS = OSType.Unknown;
 
-        public void Initialise()
+        public static void Initialise()
         {
-            //Check OS
+            ADBExists = new ADB().DoesExist();
         }
     }
 }

@@ -47,7 +47,7 @@ namespace RSL
 
         private void BeforeUILoaded()
         {
-            Settings.ADBExists = adb.DoesExist();
+            Settings.Initialise();
         }
 
         private void AfterUILoaded()
