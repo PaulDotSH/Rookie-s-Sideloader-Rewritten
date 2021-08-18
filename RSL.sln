@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSL", "RSL.csproj", "{8CB4CAFB-68D8-4AFF-9C9C-4F5C0DEF7A0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CB4CAFB-68D8-4AFF-9C9C-4F5C0DEF7A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB4CAFB-68D8-4AFF-9C9C-4F5C0DEF7A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB4CAFB-68D8-4AFF-9C9C-4F5C0DEF7A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB4CAFB-68D8-4AFF-9C9C-4F5C0DEF7A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
