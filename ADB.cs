@@ -7,7 +7,11 @@ namespace RSL
     public class ADB
     {
         public Process Process;
+        
+        //If there is a command running, locked is set to true
         static bool Locked = false;
+        
+        //ADB Constructor
         public ADB()
         {
             Process = new Process();
@@ -22,11 +26,14 @@ namespace RSL
             }
         }
 
+        //Checks if ADB is properly installed on the current machine
         public bool DoesExist()
         {
             var output = RunCommand("version");
             return output.Output.Contains("Android Debug Bridge");
         }
+        
+        //Run an adb command
         public ProcessOutput RunCommand(string command)
         {
             if (Locked) throw new Exception(LockedMessage);

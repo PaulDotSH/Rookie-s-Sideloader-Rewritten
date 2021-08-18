@@ -7,6 +7,7 @@ namespace RSL
     {
         public Process Process;
 
+        //Rclone constructor
         public Rclone()
         {
             Process = new Process();
@@ -20,12 +21,14 @@ namespace RSL
                 Process.StartInfo.CreateNoWindow = true;
             }
         }
+        //Checks if rclone is properly installed
         public bool DoesExist()
         {
             var output = RunCommand("--version");
             return output.Output.Contains("os/version");
         }
 
+        //Run an rclone command
         public ProcessOutput RunCommand(string command)
         {
             Process.StartInfo.Arguments = command;

@@ -20,7 +20,6 @@ namespace RSL
 
         public MainWindow() : this(new Builder("MainWindow.glade"))
         {
-            
         }
 
         private MainWindow(Builder builder) : base(builder.GetRawOwnedObject("MainWindow"))
@@ -29,9 +28,13 @@ namespace RSL
             BeforeUILoaded();
             builder.Autoconnect(this);
 
+            //Add events
             DeleteEvent += Window_DeleteEvent;
             _button1.Clicked += Button1_Clicked;
+            
             _GtkColorButton.Title = "test";
+            
+            //After UI was loaded
             AfterUILoaded();
         }
         #endregion
@@ -49,11 +52,13 @@ namespace RSL
         private void BeforeUILoaded()
         {
             Program.settings.Initialise();
+            if (!Program.settings.DebugMode)
+                Updater.IsUpdateAvailable();
         }
 
         private void AfterUILoaded()
         {
-            
+            TitleHandler.ChangeTitle(this,TitleHandler.DefaultTitle);
         }
         #endregion
     }

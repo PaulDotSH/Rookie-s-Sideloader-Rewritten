@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using static RSL.Objects;
 using static RSL.Utilities;
 using Newtonsoft.Json;
@@ -25,12 +26,13 @@ namespace RSL
 
         public void Save()
         {
-            Console.WriteLine(JsonConvert.SerializeObject(Program.settings));
+            File.WriteAllText("settings.json",JsonConvert.SerializeObject(Program.settings, Formatting.Indented));
         }
 
         public void Load()
         {
-            
+            if (File.Exists("settings.json"))
+                Program.settings = JsonConvert.DeserializeObject<Settings>(File.ReadAllText("settings.json"));
         }
     }
 }

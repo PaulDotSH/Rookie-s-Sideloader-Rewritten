@@ -11,6 +11,7 @@ namespace RSL
             Error = error;
         }
 
+        //Overrides the + operator for ProcessOutput so it works as expected
         public static ProcessOutput operator +(ProcessOutput a, ProcessOutput b)
         {
             return new ProcessOutput(a.Output + b.Output, a.Error + b.Error);
