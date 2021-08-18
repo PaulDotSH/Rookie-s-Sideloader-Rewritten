@@ -5,6 +5,7 @@ namespace RSL
 {
     class Program
     {
+        public static Settings settings = new Settings();
         [STAThread]
         public static void Main(string[] args)
         {

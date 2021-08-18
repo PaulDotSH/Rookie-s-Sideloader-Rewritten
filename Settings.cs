@@ -1,20 +1,36 @@
+using System;
 using static RSL.Objects;
+using static RSL.Utilities;
+using Newtonsoft.Json;
+
 namespace RSL
 {
-    class Settings
+    public class Settings
     {
 #if DEBUG
-        public static bool DebugMode = true;
+        public bool DebugMode = true;
 #else
         public static bool DebugMode = false;
 #endif
-        public static bool FirstRun = true;
-        public static bool ADBExists = false;
-        public static OSType OS = OSType.Unknown;
+        public bool FirstRun = true;
+        public bool ADBExists = false;
+        public bool RcloneExists = false;
+        public OSType OS = OSType.Unknown;
 
-        public static void Initialise()
+        public void Initialise()
         {
             ADBExists = new ADB().DoesExist();
+            RcloneExists = new Rclone().DoesExist();
+        }
+
+        public void Save()
+        {
+            Console.WriteLine(JsonConvert.SerializeObject(Program.settings));
+        }
+
+        public void Load()
+        {
+            
         }
     }
 }

@@ -1,17 +1,16 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 
 namespace RSL
 {
-    public class ADB
+    public class Rclone
     {
         public Process Process;
-        static bool Locked = false;
-        public ADB()
+
+        public Rclone()
         {
             Process = new Process();
-            Process.StartInfo.FileName = "adb";
+            Process.StartInfo.FileName = "rclone";
             Process.StartInfo.RedirectStandardInput = true;
             Process.StartInfo.RedirectStandardOutput = true;
             Process.StartInfo.RedirectStandardError = true;
@@ -21,23 +20,20 @@ namespace RSL
                 Process.StartInfo.CreateNoWindow = true;
             }
         }
-
         public bool DoesExist()
         {
-            var output = RunCommand("version");
-            return output.Output.Contains("Android Debug Bridge");
+            var output = RunCommand("--version");
+            return output.Output.Contains("os/version");
         }
+
         public ProcessOutput RunCommand(string command)
         {
-            if (Locked) throw new Exception(LockedMessage);
-            Locked = true;
-
             Process.StartInfo.Arguments = command;
 
             Process.Start();
             Process.WaitForExit();
             ProcessOutput output = new ProcessOutput(Process.StandardOutput.ReadToEnd(), Process.StandardError.ReadToEnd());
-            Locked = false;
+
             if (Program.settings.DebugMode)
             {
                 Console.WriteLine($"Running command {command}");
@@ -45,6 +41,5 @@ namespace RSL
             }
             return output;
         }
-        string LockedMessage = "Error, the current adb thread is locked";
     }
 }

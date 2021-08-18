@@ -42,12 +42,13 @@ namespace RSL
         }
         private void Button1_Clicked(object sender, EventArgs a)
         {
+            Program.settings.Save();
             _label1.Text = adb.RunCommand("version").Output;
         }
 
         private void BeforeUILoaded()
         {
-            Settings.Initialise();
+            Program.settings.Initialise();
         }
 
         private void AfterUILoaded()
