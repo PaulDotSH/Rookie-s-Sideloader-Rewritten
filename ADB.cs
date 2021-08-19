@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace RSL
 {
@@ -10,7 +12,32 @@ namespace RSL
         
         //If there is a command running, locked is set to true
         static bool Locked = false;
-        
+        public static List<AndroidDevice> Devices = new List<AndroidDevice>();
+        public string[] GetAllDevices()
+        {
+            //Get all devices from adb, remove "List of devices attached, split by new line
+            var devices = Utilities.RemoveEverythingBeforeFirst(RunCommand("devices").Output, "\n").Split('\n').ToList();
+            //Remove any empty strings
+            devices.RemoveAll(str => String.IsNullOrEmpty(str));
+            //Clear previous adb device list
+            Devices.Clear();
+            
+            foreach (var device in devices)
+            {
+                //First item is the device id, 2nd item is the status
+                var temp = device.Split("\t");
+                
+                //Get device status, "device" or "offline"
+                AndroidDevice.status status;
+                if (temp[1] == "device")
+                    status = AndroidDevice.status.device;
+                else status = AndroidDevice.status.offline;
+                Console.WriteLine($"Device with id {temp[0]} has the status {temp[1]}");
+                //Add device to list
+                Devices.Add(new AndroidDevice(temp[0],status));
+            }
+            return devices.ToArray();
+        }
         //ADB Constructor
         public ADB()
         {
